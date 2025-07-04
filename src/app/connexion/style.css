@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+@import url('https://use.fontawesome.com/releases/v5.2.0/css/all.css');
+@import url('https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css');
+
+body {
+  background-color: #080710;
+}
+
+.background-shapes {
+  width: 430px;
+  height: 520px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+}
+
+.shape {
+  height: 200px;
+  width: 200px;
+  position: absolute;
+  border-radius: 50%;
+}
+
+.shape-first {
+  background: linear-gradient(#1845ad, #23a2f6);
+  left: -80px;
+  top: -80px;
+}
+
+.shape-last {
+  background: linear-gradient(to right, #ff512f, #f09819);
+  right: -30px;
+  bottom: -80px;
+}
+
+.glassmorphism-form {
+  width: 400px;
+  height: auto;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+}
+
+.social-btn {
+  width: 150px;
+  padding: 10px;
+  border-radius: 3px;
+  background-color: rgba(255, 255, 255, 0.27);
+  color: #eaf0fb;
+  text-align: center;
+  cursor: pointer;
+}
+
+.social-btn:hover {
+  background-color: rgba(255, 255, 255, 0.47);
+}
