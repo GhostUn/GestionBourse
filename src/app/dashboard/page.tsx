@@ -4,22 +4,27 @@ import ListeBourses from '@/component/ListeBourses'
 import Navbar from '@/component/navbar'
 import Sidebar from '@/component/Siderbar'
 import { useState } from 'react'
+import { Bourse } from '../Type/typeBourse'
 
 export default function Page() {
   const role: 'etudiant' | 'admin' = 'etudiant' // À remplacer dynamiquement
-    const [filtres, setFiltres] = useState({
-      type: '',
-      pays: '',
-      niveau: '',
-      taux: '',
-      duree: '',
-    })
-  return (
-    
+  const [bourses, setBourses] = useState<Bourse[]>([]);
+  // État pour stocker les filtres et les bourses
+  const [filtres, setFiltres] = useState({
+    type: '',
+    pays: '',
+    niveau: '',
+    taux: '',
+    duree: '',
+    search: '', // Nouveau champ pour la recherche
+  });
+
+  
+  return(
    <>
     <div className="row">
            <div className="col-md-12">
-                   <FiltresBourses onChange={(newFilters) => setFiltres(newFilters)}/>
+                   <FiltresBourses />
             </div>
           </div>
        <div className="row">

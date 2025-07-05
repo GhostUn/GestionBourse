@@ -39,6 +39,7 @@ export async function getAllDomaines() {
 
 export async function getBourses(filtres: any) {
   const query = new URLSearchParams(filtres).toString()
+  console.log('ici', )
   const res = await fetch(`/api/bourses?${query}`)
   const data = await res.json()
   return data.bourses
@@ -72,4 +73,14 @@ export const getBourseById = async (id: string) => {
   }
   return await res.json(); // ✅ retourne les données
 };
+export const bourseSearch = async (query: string) => {
 
+  try {
+    
+    const res = await fetch(`http://localhost:3003/api/bourses/search?query=${query}`);
+
+    return await res.json();
+  } catch (error) {
+    throw new Error('Erreur lors de la récupération des données');
+  }
+};
