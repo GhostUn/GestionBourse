@@ -7,8 +7,8 @@ export interface Candidature {
     amount: '',
     pays:'',
     modePaiement:'',
-    denierDiplome:'',
-    DiplomeRequis:'',
-    cv:'',
-    lettreRecommandation?:''
+    denierDiplome:File | null,
+    DiplomeRequis: File | null;
+    cv:File | null,
+    lettreRecommandation?:File | null
 }

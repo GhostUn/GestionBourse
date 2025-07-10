@@ -73,7 +73,7 @@ export const getBourseById = async (id: string) => {
   }
   return await res.json(); // ✅ retourne les données
 };
-export const bourseSearch = async (query: string) => {
+export const bourseSearch1 = async (query: string) => {
 
   try {
     
@@ -83,4 +83,20 @@ export const bourseSearch = async (query: string) => {
   } catch (error) {
     throw new Error('Erreur lors de la récupération des données');
   }
+};
+export const bourseSearch = async (filters: {
+            search: string;
+            type?: string;
+            pays?: string;
+            niveau?: string;
+            taux?: string;
+            duree?: string;
+  }): Promise<Bourse[]> => {
+  const params = new URLSearchParams();
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value) params.append(key, value);
+  });
+
+  const res = await fetch(`http://localhost:3003/api/bourses/search?${params.toString()}`);
+  return await res.json();
 };

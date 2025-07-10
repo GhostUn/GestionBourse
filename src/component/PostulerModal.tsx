@@ -28,16 +28,17 @@ export default function PostulerModal({ bourseId, onClose }: PostulerModalProps)
     amount: '',
     pays:'',
     modePaiement:'',
-    denierDiplome:'',
-    DiplomeRequis:'',
-    cv:'',
-    lettreRecommandation:''
+    denierDiplome: null as File | null,
+    DiplomeRequis:null as File | null,
+    cv:null as File | null,
+    lettreRecommandation:null as File | null,
 
   });
 
 
   useEffect(() => {
   const userStored = localStorage.getItem('user')
+  console.log('userStored', userStored)
   if (userStored) {
     const user = JSON.parse(userStored)
     setFormData(prev => ({
@@ -90,27 +91,14 @@ export default function PostulerModal({ bourseId, onClose }: PostulerModalProps)
 
     // Vérification des champs obligatoires
     // Vérification des champs requis
-    if (!formData.nomEt || !formData.email || !formData.document || !formData.modePaiement) {
+    if (!formData.nomEt || !formData.email || !formData.cv || !formData.modePaiement) {
         alert('Veuillez remplir tous les champs obligatoires.');
         return;
     }
 
     try {
-      // Préparation des données pour l'envoi
-      const formDataToSend = new FormData();
-      formDataToSend.append('bourseId', bourseId);
-      formDataToSend.append('nom', formData.nomEt);
-      formDataToSend.append('email', formData.email);
-      if (formData.document) {
-        formDataToSend.append('document', formData.document);
-      }
-      formDataToSend.append('phoneNumber', formData.phoneNumber);
-      formDataToSend.append('amount', formData.amount);
-      formDataToSend.append('modePaiement', formData.modePaiement);
-
-
+   
       // Requête POST vers l'API pour soumettre la candidature
-
       const candidature = await CreationCandidature(formData)
        const result = await candidature?.json();
         
@@ -165,22 +153,30 @@ export default function PostulerModal({ bourseId, onClose }: PostulerModalProps)
                     
                     <div className="col-md-6">
                         <label htmlFor=""> Cv</label>
-                        <input name="cv" type='file' onChange={handleFileChange} value={formData.cv} className="form-control" placeholder="cv" />
+                      {formData.cv && <small>Fichier sélectionné : {formData.cv.name}</small>}
+
+                        <input name="cv" type='file' onChange={handleFileChange} className="form-control" placeholder="cv" />
                     </div>
 
                     <div className="col-md-6">
                       <label htmlFor="">  Diplome Requis</label>
-                      <input name="DiplomeRequis" type='file' onChange={handleFileChange} value={formData.DiplomeRequis} className="form-control" placeholder="Diplome Requis" />
+                      {formData.DiplomeRequis && <small>Fichier sélectionné : {formData.DiplomeRequis.name}</small>}
+
+                      <input name="DiplomeRequis" type='file' onChange={handleFileChange}  className="form-control" placeholder="Diplome Requis" />
                     </div>
 
                     <div className="col-md-6">
                       <label htmlFor=""> Dernier Diplome</label>
-                      <input name="DernierDiplome" type='file' onChange={handleFileChange} value={formData.denierDiplome} className="form-control" placeholder="Dernier Diplome" />
+                      {formData.denierDiplome && <small>Fichier sélectionné : {formData.denierDiplome.name}</small>}
+
+                      <input name="denierDiplome" type='file' onChange={handleFileChange} className="form-control" placeholder="Dernier Diplome" />
                     </div>
 
                     <div className="col-md-6">
                       <label htmlFor=""> Lettre de recommandation</label>
-                      <input name="lettreRecommandation" type='file' onChange={handleFileChange} value={formData.lettreRecommandation} className="form-control" placeholder="lettre de Recommandation" />
+                      <input name="lettreRecommandation" type='file' onChange={handleFileChange}  className="form-control" placeholder="lettre de Recommandation" />
+                    {formData.lettreRecommandation && <small>Fichier sélectionné : {formData.lettreRecommandation.name}</small>}
+
                     </div>
                   </div>
                 )}
