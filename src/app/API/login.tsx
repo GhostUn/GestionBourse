@@ -1,51 +1,45 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken"
-import { Connexion } from '@/app/Type/typeUser';
+import { Connexion } from "../Type/typeUser";
 
+// ✅ Fonction utilitaire pure, sans hook
+export async function ConnexionUser(
+  formData: any,
+  setUser: (user: any) => void
+) {
+  if (!formData.email || !formData.password) return;
 
+  try {
+    const response = await fetch('http://localhost:3003/api/auth', {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
 
-export async function ConnexionUser(formData:Connexion ) {
+    const data = await response.json();
+    console.log('data.user', data.user)
 
-    if(!formData.email || !formData.password) return 
-    console.log('formData kjn', JSON.stringify(formData.email))
-  
-
-    try {
-        const response = await fetch('http://localhost:3003/api/auth',  {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-            });
-            console.log('response', response)
-            const data = await response.json();
-            // verifier si l'utilisateur existe
-            if (!response.ok) {
-                // Gestion des erreurs
-                throw new Error("Une erreur est survenue lors de la selection du user.");
-            }
-
-            if (typeof window !== "undefined") {
-                  localStorage.setItem("token", data.token); // JWT envoyé par le backend
-             }
-            
-           
-                        // En cas de succès
-            console.log("Token reçu :");
-            console.log("Utilisateur connecté :");
-
-            const user ={
-                "data": data.user,
-                "response": response,
-                "token":data.token
-            }
-            return user
-        
-    } catch (error) {
-        console.error("Erreur lors de la verification de l'utilisateur ",error);
+    if (!response.ok) {
+      throw new Error("Erreur lors de la connexion.");
     }
-    
+    if (typeof window !== "undefined") {
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user)); // Bonus : persister l'utilisateur
+    }
 
+    setUser({
+      id: data.user.id,
+      email: data.user.email,
+      nom: data.user.name,
+      pays: data.user.pays,
+      token: data.token,
+    });
+
+    return {
+      user: data.user,
+      token: data.token,
+    };
+
+  } catch (error) {
+    console.error("Erreur connexion :", error);
+    throw error;
+  }
 }

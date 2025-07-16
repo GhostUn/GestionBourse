@@ -3,7 +3,7 @@
 import { CreationCandidature } from '@/app/API/Candidature';
 import { Candidature } from '@/app/Type/candidature';
 import React, { useEffect, useState } from 'react';
-
+import { useUser } from "@/app/context/useContext";
 interface PostulerModalProps {
   bourseId: any; // ID de la bourse
   onClose: () => void; // Fonction pour fermer le modal
@@ -13,13 +13,13 @@ interface PostulerModalProps {
 
 export default function PostulerModal({ bourseId, onClose }: PostulerModalProps) {
   // État pour gérer les étapes
-
+      const { user } = useUser();
       const [step, setStep] = useState(1)
       const [showModal, setShowModal] = useState(false)
-
+      console.log('user', user)
       const modePaiements = ['Mobile money', 'Wave' , 'Virement']
   // État pour stocker les données des différentes étapes
-  const [formData, setFormData] = useState<Candidature>({
+       const [formData, setFormData] = useState<Candidature>({
     nomEt: '',
     nombourse:'',
     email: '',
@@ -33,17 +33,18 @@ export default function PostulerModal({ bourseId, onClose }: PostulerModalProps)
     cv:null as File | null,
     lettreRecommandation:null as File | null,
 
-  });
-
+      });
+        if (!user) {
+    return <p>Veuillez vous connecter pour postuler</p>;
+  }
 
   useEffect(() => {
   const userStored = localStorage.getItem('user')
-  console.log('userStored', userStored)
   if (userStored) {
     const user = JSON.parse(userStored)
     setFormData(prev => ({
       ...prev,
-      nomEt: user.nom,
+      nomEt: user.name,
       email: user.email,
       pays: user.pays, // si tu l’as
         }))
@@ -91,7 +92,7 @@ export default function PostulerModal({ bourseId, onClose }: PostulerModalProps)
 
     // Vérification des champs obligatoires
     // Vérification des champs requis
-    if (!formData.nomEt || !formData.email || !formData.cv || !formData.modePaiement) {
+    if (!formData.nomEt || !formData.email || !formData.document || !formData.modePaiement) {
         alert('Veuillez remplir tous les champs obligatoires.');
         return;
     }
@@ -134,13 +135,13 @@ export default function PostulerModal({ bourseId, onClose }: PostulerModalProps)
                 {step === 1 && (
                   <div className="row g-3">
                     <div className="col-md-6">
-                      <input name="nomEt" onChange={handleChange} value={formData.nomEt} className="form-control" placeholder="Etudaint" />
+                      <input name="nomEt" onChange={handleChange} value={formData.nomEt || user.nom} className="form-control"  placeholder="Etudaint" />
                     </div>
                     <div className="col-md-6">
-                      <input name="email" onChange={handleChange} value={formData.email} className="form-control" placeholder="email" />
+                      <input name="email" onChange={handleChange} value={formData.email || user.email} className="form-control" placeholder="email" />
                     </div>
                     <div className="col-md-6">
-                      <input name="pays" onChange={handleChange} value={formData.pays} className="form-control" placeholder="Pays" />
+                      <input name="pays"  onChange={handleChange} value={formData.pays} className="form-control" placeholder="Pays" />
                     </div>
                       <div className="col-md-6">
                       <input name="nombourse" onChange={handleChange} value={formData.nombourse} className="form-control" placeholder="Nom de la bourse" />
@@ -169,7 +170,7 @@ export default function PostulerModal({ bourseId, onClose }: PostulerModalProps)
                       <label htmlFor=""> Dernier Diplome</label>
                       {formData.denierDiplome && <small>Fichier sélectionné : {formData.denierDiplome.name}</small>}
 
-                      <input name="denierDiplome" type='file' onChange={handleFileChange} className="form-control" placeholder="Dernier Diplome" />
+                      <input name="DernierDiplome" type='file' onChange={handleFileChange} className="form-control" placeholder="Dernier Diplome" />
                     </div>
 
                     <div className="col-md-6">

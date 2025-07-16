@@ -1,13 +1,12 @@
-
 'use client';
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface User {
   id: string;
   email: string;
   nom?: string;
-  telephone?:string;
-  pays?:string;
+  telephone?: string;
+  pays?: string;
   token?: string;
 }
 
@@ -20,6 +19,14 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+
+  // ✅ Restaurer l'utilisateur au montage
+  useEffect(() => {
+    const userStored = localStorage.getItem("user");
+    if (userStored) {
+      setUser(JSON.parse(userStored));
+    }
+  }, []);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

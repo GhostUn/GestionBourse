@@ -4,10 +4,13 @@ import React, { useState } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { ConnexionUser } from '@/app/API/login';
+import { useUser } from "@/app/context/useContext";
 import { useRouter } from 'next/navigation';
 
 
 const LoginForms = () => {
+
+     const { setUser } = useUser();
 const router = useRouter();
     const [formData , setFormData] = useState({
         email : '',
@@ -29,23 +32,11 @@ const router = useRouter();
 
     try {
     if (formData.email && formData.password ) {
-        const response = await ConnexionUser(formData)
-        console.log('data1', response)
-            
-            const data = await response
-           if (!response?.response.ok) {
-            const errorData = await response?.data.json();
-            throw new Error(errorData.message || "Échec de la connexion.");
-            }
-      // Stocker le token dans localStorage
-      localStorage.setItem("token", response.data.token);
-
-      alert("Connexion réussie !");
-      console.log("Token reçu :", response.token);
-       }
-        alert("Connexion réussie !");
-        
+        const response = await ConnexionUser(formData, setUser)
+       
+        alert("Connexion réussie !")
         router.push("/dashboard");
+    }
     } catch (error) {
       console.error("Erreur :", error);
       alert("Une erreur est survenue.");
