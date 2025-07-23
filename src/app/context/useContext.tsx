@@ -8,6 +8,9 @@ interface User {
   telephone?: string;
   pays?: string;
   token?: string;
+  prenom: string
+  userName?: string
+  password?: string
 }
 
 interface UserContextType {

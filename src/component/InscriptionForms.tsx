@@ -1,216 +1,177 @@
 'use client'
+
 import React, { useState } from 'react'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle, faFacebook } from "@fortawesome/free-brands-svg-icons";
-import { creationUser } from '@/app/API/User';
-import { User } from '@/app/Type/typeUser';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faGoogle, faFacebook } from "@fortawesome/free-brands-svg-icons"
+import { creationUser } from '@/app/API/User'
+import { User } from '@/app/Type/typeUser'
 
 const InscriptionForms = () => {
-
-
-
-  const [formData, setFormData ] = useState<User>({
-    name:"",
-    prenom:"",
-    telephone:"",
-    userName:"",
-    password:"",
-    email:""
-  })
-
-  const supform = () => {
-  setFormData({
+  const [formData, setFormData] = useState<User>({
     name: "",
     prenom: "",
     telephone: "",
     userName: "",
     password: "",
     email: ""
-  });
-};
+  })
 
+  const supform = () => {
+    setFormData({
+      name: "",
+      prenom: "",
+      telephone: "",
+      userName: "",
+      password: "",
+      email: ""
+    })
+  }
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  )=>{
-    const {name, value} = e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
     setFormData((prevData) => ({
-        ...prevData,
-        [name]: value
+      ...prevData,
+      [name]: value
     }))
   }
 
- // Étape 3 : Gérer la soumission du formulaire
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Empêcher le rechargement de la page
+    e.preventDefault()
 
-    // Afficher les données du formulaire dans la console (ou les envoyer à une API)
     try {
-
-         if (formData.userName && formData.name ) {
-             console.log('data1', formData)
-            const Etudiant = await creationUser(formData)
-            console.log('Etudiant', Etudiant)
-            supform();
-            if (!Etudiant?.ok) {
-            const errorData = await Etudiant?.json();
-            throw new Error(errorData.message || "Échec de la connexion.");
-            }
-
-           
-      // Stocker le token dans localStorage
-      //localStorage.setItem("token", response.data.token);
-
-      alert("creation réussie !");
+      if (formData.userName && formData.name) {
+        const Etudiant = await creationUser(formData)
+        //supform()
+        if (!Etudiant?.ok) {
+          const errorData = await Etudiant?.json()
+          throw new Error(errorData.message || "Échec de l'inscription.")
         }
-        return
+        alert("Création réussie !")
+      }
     } catch (error) {
-        console.log('erreur lors du traitement du formulaire', error)
+      console.log('Erreur lors de la création du compte', error)
     }
-    // Réinitialiser le formulaire si nécessaire
-   
-  };
+  }
+
   return (
-   <div className="d-flex justify-content-center align-items-center vh-100">
-        {/* Background Shapes */}
-        <div className="position-absolute background-shapes">
-            <div className="shape shape-first"></div>
-            <div className="shape shape-last"></div>
-        </div>
+    <div className="container d-flex justify-content-center align-items-center min-vh-100">
+      <div className="card shadow p-4 w-100" style={{ maxWidth: '500px' }}>
+        <h3 className="text-center mb-4">Créer un compte</h3>
 
-        {/* Login Form */}
-        <form className="glassmorphism-form bg-transparent p-5 rounded" onSubmit={handleSubmit}>
-            <h3 className="text-center text-white fw-bold mb-4">Cree un compte </h3>
-
-            {/* Username Field */}
-            <div className="mb-3 text-white">
-            <label htmlFor="name" className="form-label text-white fw-medium">
-                Nom
-            </label>
+        <form onSubmit={handleSubmit}>
+          {/* Nom */}
+          <div className="mb-3">
+            <label htmlFor="name" className="form-label">Nom</label>
             <input
-                type="text"
-                id="name"
-                name="name" // Must match the key in the state
-                value={formData.name}
-                onChange={handleChange} // Add the onChange handle
-               
-                className="form-control bg-transparent text-white border-0"
-                placeholder="Name"
-                style={{ backgroundColor: "rgba(255,255,255,0.07)" }}
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="form-control"
+              placeholder="Nom"
+              required
             />
-            </div>
-              {/* Username Field */}
-            <div className="mb-3 text-white">
-            <label htmlFor="email" className="form-label text-white fw-medium">
-                Email
-            </label>
+          </div>
+
+          {/* Prénom */}
+          <div className="mb-3">
+            <label htmlFor="prenom" className="form-label">Prénom</label>
             <input
-                type="email"
-                id="email"
-                name="email" // Must match the key in the state
-                value={formData.email}
-                onChange={handleChange} // Add the onChange handle
-               
-                className="form-control bg-transparent text-white border-0"
-                placeholder="Email"
-                style={{ backgroundColor: "rgba(255,255,255,0.07)" }}
+              type="text"
+              id="prenom"
+              name="prenom"
+              value={formData.prenom}
+              onChange={handleChange}
+              className="form-control"
+              placeholder="Prénom"
             />
-            </div>
+          </div>
 
-            {/* Password Field */}
-            <div className="mb-4">
-            <label htmlFor="prenom" className="form-label text-white fw-medium">
-                Prenom
-            </label>
+          {/* Email */}
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">Email</label>
             <input
-                type="text"
-                id="prenom"
-                name='prenom'
-                onChange={handleChange}
-                value={formData.prenom}
-                placeholder="Prenom"
-                className="form-control bg-transparent text-white border-0"
-                style={{ backgroundColor: "rgba(255,255,255,0.07)" }}
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="form-control"
+              placeholder="email@exemple.com"
+              required
             />
-            </div>
+          </div>
 
-            
-            {/* Username Field */}
-            <div className="mb-3 text-white">
-            <label htmlFor="telephone" className="form-label text-white fw-medium">
-                Telephone
-            </label>
+          {/* Téléphone */}
+          <div className="mb-3">
+            <label htmlFor="telephone" className="form-label">Téléphone</label>
             <input
-                type="text"
-                id="phone"
-                name='telephone'
-                onChange={handleChange}
-                value={formData.telephone}
-                className="form-control bg-transparent text-white border-0"
-                placeholder="+1 452 8856 222"
-                style={{ backgroundColor: "rgba(255,255,255,0.07)" }}
+              type="text"
+              id="telephone"
+              name="telephone"
+              value={formData.telephone}
+              onChange={handleChange}
+              className="form-control"
+              placeholder="+221 77 000 0000"
             />
-            </div>
+          </div>
 
-            
-            {/* Username Field */}
-            <div className="mb-3 text-white">
-            <label htmlFor="username" className="form-label text-white fw-medium">
-                Username
-            </label>
+          {/* Nom d'utilisateur */}
+          <div className="mb-3">
+            <label htmlFor="userName" className="form-label">Nom d'utilisateur</label>
             <input
-                type="text"
-                id="username"
-                name='userName'
-                onChange={handleChange}
-                value={formData.userName}
-                className="form-control bg-transparent text-white border-0"
-                placeholder="Email or Phone"
-                style={{ backgroundColor: "rgba(255,255,255,0.07)" }}
+              type="text"
+              id="userName"
+              name="userName"
+              value={formData.userName}
+              onChange={handleChange}
+              className="form-control"
+              placeholder="Pseudo"
+              required
             />
-            </div>
+          </div>
 
-
-            
-            {/* Username Field */}
-            <div className="mb-3 text-white">
-            <label htmlFor="password" className="form-label text-white fw-medium">
-                Mots de passe
-            </label>
+          {/* Mot de passe */}
+          <div className="mb-4">
+            <label htmlFor="password" className="form-label">Mot de passe</label>
             <input
-                type="password"
-                id="password"
-                name='password'
-                onChange={handleChange}
-                value={formData.password}
-                className="form-control bg-transparent text-white border-0"
-                placeholder="Password"
-                style={{ backgroundColor: "rgba(255,255,255,0.07)" }}
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className="form-control"
+              placeholder="••••••••"
+              required
             />
-            </div>
+          </div>
 
-            {/* Login Button */}
-            <button
-            type="submit"
-            className="btn btn-light w-100 fw-bold"
-            style={{ color: "#080710" }}
-            >
-            S'incrire
+          <button type="submit" className="btn btn-primary w-100 fw-bold">
+            S'inscrire
+          </button>
+        </form>
+
+        {/* Boutons sociaux */}
+         
+        <div className="mt-4">
+          <p className="text-center">Ou Connectez-vous avec</p>
+          <div className="d-flex gap-3 justify-content-center">
+            <a href="/connexion">
+                   <button className="btn btn-outline-danger d-flex align-items-center gap-2">
+              <FontAwesomeIcon icon={faGoogle} />
+              Google
             </button>
-
-            {/* Social Login Buttons */}
-              <div className="d-flex justify-content-between mt-4 social-buttons gap-3 ">
-            <div className="social-btn google d-flex align-items-center justify-content-center go">
-                <FontAwesomeIcon icon={faGoogle} className="me-1 w-100" />
-                Google
-            </div>
-            <div className="social-btn facebook d-flex align-items-center justify-content-center fb">
-                <FontAwesomeIcon icon={faFacebook} className="me-2 w-100" />
-                Facebook
+            </a>
+         
+            <button className="btn btn-outline-primary d-flex align-items-center gap-2">
+              <FontAwesomeIcon icon={faFacebook} />
+              Facebook
+            </button>
           </div>
         </div>
-        </form>
-        </div>
+      </div>
+    </div>
   )
 }
 

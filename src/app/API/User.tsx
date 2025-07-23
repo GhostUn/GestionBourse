@@ -14,7 +14,7 @@ export async function creationUser(formData :User) {
             },
             body: JSON.stringify(formData),
             });
-console.log('formData mes datas end front', response)
+            console.log('formData mes datas end front', response)
 
             return response
         

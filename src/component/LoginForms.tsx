@@ -69,7 +69,7 @@ const router = useRouter();
                 value={formData.email}
                 className="form-control bg-transparent text-white border-0"
                 placeholder="domaine@g-mail.com"
-                style={{ backgroundColor: "rgba(255,255,255,0.07)" }}
+               // style={{ backgroundColor: "rgba(237, 245, 247, 0.81)" }}
             />
             </div>
 
@@ -98,6 +98,11 @@ const router = useRouter();
             >
             Log In
             </button>
+              <div className="d-flex align-items-center justify-content-center mt-5">
+                <p>Pas de compte ?
+                    <a href="/inscription"> S'inscrire ici </a>
+                </p>
+              </div>
 
             {/* Social Login Buttons */}
               <div className="d-flex justify-content-between mt-4 social-buttons gap-3 ">

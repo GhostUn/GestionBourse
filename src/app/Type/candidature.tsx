@@ -2,7 +2,7 @@ export interface Candidature {
     nomEt: '',
     nombourse:'',
     email: '',
-    document: File | null,
+   // document: File | null,
     phoneNumber: '',
     amount: '',
     pays:'',

@@ -23,9 +23,50 @@ export async function CreationCandidature(formData: Candidature) {
       method: "POST",
       body: data, // Pas besoin de headers
     });
+    // Vérifiez si la réponse est OK (status 200-299)
+ 
 
-    return response;
+    // Récupération des données JSON
+    const responseData = await response.json();
+    console.log('Réponse de l\'API :', responseData);
+       if (!response.ok) {
+      throw new Error(`Erreur HTTP : ${response.status}`);
+    }
+
+ // Redirection vers le formulaire de paiement
+    if (responseData.payment_url) {
+      window.location.href = responseData.payment_url;
+    } else {
+      console.error('Erreur : payment_url non disponible.');
+    }
+
+    return responseData;
   } catch (error) {
     console.error("Erreur lors de la création de la candidature", error);
+  }
+}
+
+export async function ListeCandidaturesUser(email: string) {
+  try {
+    console.log('encodeURIComponent(email)', encodeURIComponent(email))
+    const response = await fetch(`http://localhost:3003/api/candidatures/${email}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    console.log('Réponse du backend (candidatures):', data);
+      // Garde cette vérification
+    if (!Array.isArray(data)) {
+      console.warn("La réponse n'est pas un tableau !");
+      return [];
+    }
+    return data;
+  } catch (error) {
+    console.error("Erreur lors de la récupération des candidatures de l'utilisateur :", error);
+    return null;
   }
 }

@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+
 type NavLink = {
   href: string
   label: string
@@ -14,7 +15,7 @@ export default function Navbar() {
   const router = useRouter()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isReady, setIsReady] = useState(false)
-
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -22,7 +23,8 @@ export default function Navbar() {
     setIsReady(true)
   }, [])
 
-  if (!isReady) return null // ou un loader si tu veux
+  if (!isReady) return null
+
   const handleLogout = () => {
     localStorage.removeItem('token')
     setIsAuthenticated(false)
@@ -46,12 +48,19 @@ export default function Navbar() {
 
   return (
     <header className="bg-light border-bottom py-3 px-4">
-      <div className="container-fluid d-flex align-items-center">
-        <div className="col-3 fw-bold fs-4 text-primary">
-          Univer.City Center
-        </div>
+      <div className="container-fluid d-flex justify-content-between align-items-center">
+        <div className="fw-bold fs-4 text-primary">Univer.City Center</div>
 
-        <nav className="ms-auto d-flex gap-3">
+        {/* Bouton toggle menu mobile */}
+        <button
+          className="d-md-none btn btn-outline-primary"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          ☰
+        </button>
+
+        {/* Liens navigation desktop */}
+        <nav className="d-none d-md-flex gap-3">
           {linksToShow.map((link) =>
             link.onClick ? (
               <button
@@ -75,6 +84,37 @@ export default function Navbar() {
           )}
         </nav>
       </div>
+
+      {/* Liens navigation mobile */}
+      {isMenuOpen && (
+        <div className="d-md-none mt-2 px-4">
+          {linksToShow.map((link) =>
+            link.onClick ? (
+              <button
+                key={link.label}
+                onClick={() => {
+                  link.onClick?.()
+                  setIsMenuOpen(false)
+                }}
+                className="btn btn-link w-100 text-start text-dark"
+              >
+                {link.label}
+              </button>
+            ) : (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`d-block py-2 text-decoration-none ${
+                  pathname === link.href ? 'fw-bold text-primary' : 'text-dark'
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            )
+          )}
+        </div>
+      )}
     </header>
   )
 }

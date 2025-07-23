@@ -5,14 +5,22 @@ import BourseCard from './BourseCard'
 import { getAllBourses } from '@/app/API/CreationBourse'
 import { Bourse } from '@/app/Type/typeBourse'
 
-export default function ListeBourses({ filtres }: { filtres: any }) {
+type ListeBoursesProps = {
+  filtres: Record<string, any>
+}
+
+export default function ListeBourses({ filtres }: ListeBoursesProps) {
   const [bourses, setBourses] = useState<Bourse[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const result = await getAllBourses(filtres)
-        setBourses(result)
+        if (Array.isArray(result)) {
+          setBourses(result)
+        } else {
+          console.error('Le format des données reçues n’est pas un tableau')
+        }
       } catch (error) {
         console.error('Erreur lors du chargement des bourses:', error)
       }
@@ -24,7 +32,7 @@ export default function ListeBourses({ filtres }: { filtres: any }) {
   return (
     <div className="row mt-4">
       {bourses.map((bourse, index) => (
-        <div key={index} className="col-md-3 mb-4">
+        <div key={index} className="col-md-4 mb-4">
           <BourseCard bourse={bourse} />
         </div>
       ))}

@@ -23,7 +23,7 @@ export default function PostulerModal({ bourseId, onClose }: PostulerModalProps)
     nomEt: '',
     nombourse:'',
     email: '',
-    document: null as File | null,
+    //document: null as File | null,
     phoneNumber: '',
     amount: '',
     pays:'',
@@ -92,29 +92,31 @@ export default function PostulerModal({ bourseId, onClose }: PostulerModalProps)
 
     // Vérification des champs obligatoires
     // Vérification des champs requis
-    if (!formData.nomEt || !formData.email || !formData.document || !formData.modePaiement) {
+    if (!formData.nomEt || !formData.email || !formData.modePaiement) {
         alert('Veuillez remplir tous les champs obligatoires.');
         return;
     }
 
     try {
+      console.log('dernierDiplome', formData)
    
       // Requête POST vers l'API pour soumettre la candidature
-      const candidature = await CreationCandidature(formData)
-       const result = await candidature?.json();
+      
+       const candidature = await CreationCandidature(formData)
+    
         
         if (!candidature?.ok) {
-        alert("Erreur : " + result.message);
+        alert("Erreur : " + candidature.message);
         return;
         }
 
           alert("Candidature enregistrée avec succès !");
-          window.open(result.recuUrl, '_blank');
+          window.open(candidature.recuUrl, '_blank');
           onClose(); // Fermer le modal
     
-    } catch (err: any) {
-      alert("Erreur : " + err.message);
-    }
+      } catch (err: any) {
+        alert("Erreur : " + err.message);
+      }
   };
 
   return (
@@ -170,7 +172,7 @@ export default function PostulerModal({ bourseId, onClose }: PostulerModalProps)
                       <label htmlFor=""> Dernier Diplome</label>
                       {formData.denierDiplome && <small>Fichier sélectionné : {formData.denierDiplome.name}</small>}
 
-                      <input name="DernierDiplome" type='file' onChange={handleFileChange} className="form-control" placeholder="Dernier Diplome" />
+                      <input name="denierDiplome" type='file' onChange={handleFileChange} className="form-control" placeholder="Dernier Diplome" />
                     </div>
 
                     <div className="col-md-6">

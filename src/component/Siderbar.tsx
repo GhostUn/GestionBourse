@@ -20,9 +20,9 @@ export default function Sidebar({ role }: SidebarProps) {
 
   const etudiantLinks: LinkItem[] = [
     { label: 'Liste des bourses', href: '/bourses' },
-    { label: 'Mes candidatures', href: '/mes-candidatures' },
-    { label: 'Nouvelle candidature', href: '/candidature/nouvelle' },
-    { label: 'Paiements', href: '/paiements' },
+    { label: 'Mes candidatures', href: '/mesCandidatures' },
+    { label: 'Mon profil', href: '/profil' },
+    //{ label: 'Paiements', href: '/paiements' },
   ]
 
   const adminLinks : LinkItem[]= [
