@@ -37,14 +37,14 @@ export async function getAllDomaines() {
   }
 }
 
-export async function getBourses(filtres: any) {
+/*export async function getBourses(filtres: any) {
   const query = new URLSearchParams(filtres).toString()
   console.log('ici', )
   const res = await fetch(`/api/bourses?${query}`)
   const data = await res.json()
   return data.bourses
-}
-export async function getAllBourses(filtres: any) {
+}*/
+export async function getAllBourses() {
   const response = await fetch('http://localhost:3003/api/Bourses',  {
             method: "GET",
             headers: {
@@ -81,6 +81,7 @@ export const bourseSearch1 = async (query: string) => {
 
     return await res.json();
   } catch (error) {
+    console.log('error', error)
     throw new Error('Erreur lors de la récupération des données');
   }
 };

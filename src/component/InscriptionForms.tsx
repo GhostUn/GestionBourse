@@ -5,8 +5,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faGoogle, faFacebook } from "@fortawesome/free-brands-svg-icons"
 import { creationUser } from '@/app/API/User'
 import { User } from '@/app/Type/typeUser'
+import { useRouter } from 'next/navigation'
 
 const InscriptionForms = () => {
+  const router = useRouter()
+
   const [formData, setFormData] = useState<User>({
     name: "",
     prenom: "",
@@ -47,6 +50,7 @@ const InscriptionForms = () => {
           throw new Error(errorData.message || "Échec de l'inscription.")
         }
         alert("Création réussie !")
+        router.push('/connexion')
       }
     } catch (error) {
       console.log('Erreur lors de la création du compte', error)

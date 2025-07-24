@@ -1,9 +1,9 @@
-import { Connexion } from "../Type/typeUser";
+import { Connexion,User } from "../Type/typeUser";
 
 // ✅ Fonction utilitaire pure, sans hook
 export async function ConnexionUser(
-  formData: any,
-  setUser: (user: any) => void
+  formData: Connexion,
+  setUser: (user: User) => void
 ) {
   if (!formData.email || !formData.password) return;
 
@@ -28,9 +28,15 @@ export async function ConnexionUser(
     setUser({
       id: data.user.id,
       email: data.user.email,
-      nom: data.user.name,
+      name: data.user.name,
       pays: data.user.pays,
       token: data.token,
+      password: '',
+      telephone:data.user.telephone,
+      nom:data.user.name,
+      id_user:data.user.id,
+      prenom: data.user.prenom,
+      userName: data.user.userName
     });
 
     return {

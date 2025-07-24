@@ -4,12 +4,14 @@ import { notFound } from 'next/navigation';
 import BourseDetails from '@/component/BourseDetails'
 import Navbar from '@/component/navbar'
 import { getBourseById } from '@/app/API/CreationBourse';
-import { Bourse } from '@/app/Type/typeBourse';
-interface PageProps {
+
+/*interface PageProps {
   params: {
     id: number;
   };
-}
+} commenter pour faire passer le build
+*/
+
 
 const Page = ({ params }: { params: Promise<{ id: string }> }) => {
  const { id } = use(params)

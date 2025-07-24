@@ -1,9 +1,6 @@
 'use client'
 import React, { useState } from 'react'
-import BourseLayout from './layout'
-import ParametreLayout from '../layout'
-import ListeAdmin from '@/component/ListeAdmin'
-import CreationBourse from '@/component/CreationBourse'
+
 import ListeBourses from '@/component/ListeBourses'
 import Navbar from '@/component/navbar'
 
@@ -15,6 +12,16 @@ import Navbar from '@/component/navbar'
     taux: '',
     duree: '',
   })
+
+  if (!filtres) {
+      setFiltres({ 
+      type: 'Complete',
+      pays: 'cameroun',
+      niveau: 'L1',
+      taux: '100%',
+      duree: '3ans',
+  })
+  }
   return (
         <>
                     <div className="container-fluid">
@@ -25,7 +32,7 @@ import Navbar from '@/component/navbar'
                       </div>
                       <div className="row">
                         <div className="col-md-12">
-                                <ListeBourses filtres={filtres} />
+                                <ListeBourses filtres={filtres}/>
                         </div>
                       </div>
                     </div>

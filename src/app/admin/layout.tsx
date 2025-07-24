@@ -1,7 +1,6 @@
 
 import Sidebar from '@/component/Siderbar'
 import SidebarConfig from '@/component/Siderbarconfig'
-import DashboardLayout from '../dashboard/layout'
 
 export default function ParametreLayout({ children }: { children: React.ReactNode }) {
   return (

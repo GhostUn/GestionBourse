@@ -1,6 +1,5 @@
 // app/admin/bourses/domaines/page.tsx
 'use client'
-import FormulaireDomaine from '../../../component/FormulaireDomaine'
 import FormulaireNiveauEtude from '../../../component/FormNiveauE'
 
 

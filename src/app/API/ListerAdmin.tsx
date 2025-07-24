@@ -1,6 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken"
+
 import { Connexion } from '@/app/Type/typeUser';
 
 

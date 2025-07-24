@@ -7,7 +7,10 @@ export interface User {
     telephone:string;
     userName: string;
     password: string;
-    email:string
+    email:string;
+    nom?:string;
+    pays?:string;
+    token?:string
 }
 
 export interface Connexion {

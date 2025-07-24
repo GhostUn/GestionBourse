@@ -9,13 +9,13 @@ type ListeBoursesProps = {
   filtres: Record<string, any>
 }
 
-export default function ListeBourses({ filtres }: ListeBoursesProps) {
+export default function ListeBourses({ filtres}: ListeBoursesProps) {
   const [bourses, setBourses] = useState<Bourse[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getAllBourses(filtres)
+        const result = await getAllBourses()
         if (Array.isArray(result)) {
           setBourses(result)
         } else {
@@ -33,7 +33,7 @@ export default function ListeBourses({ filtres }: ListeBoursesProps) {
     <div className="row mt-4">
       {bourses.map((bourse, index) => (
         <div key={index} className="col-md-4 mb-4">
-          <BourseCard bourse={bourse} />
+          <BourseCard bourse={bourse}/>
         </div>
       ))}
     </div>

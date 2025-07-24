@@ -5,14 +5,20 @@ import ListeCandidature from '@/component/ListeCandidature'
 import ModalCandidature from '@/component/DetailsCandidature'
 import { useUser } from '@/app/context/useContext'
 import { ListeCandidaturesUser } from '@/app/API/Candidature'
-
+import dynamic from 'next/dynamic'
 const Page = () => {
   const { user } = useUser()
   const [candidatures, setCandidatures] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState<any | null>(null)
   const [showModal, setShowModal] = useState(false)
+  const ListeCandidature = dynamic(() => import('@/component/ListeCandidature'), {
+  ssr: false,
+})
 
+const ModalCandidature = dynamic(() => import('@/component/DetailsCandidature'), {
+  ssr: false,
+})
   useEffect(() => {
     if (!user || !user.email) {
       setLoading(false)
