@@ -37,9 +37,9 @@ const router = useRouter();
         alert("Connexion réussie !")
         router.push("/dashboard");
     }
-    } catch (error) {
-      console.error("Erreur :", error);
-      alert("Une erreur est survenue.");
+    } catch (error) { 
+       console.error('Erreur lors de la connexion :', error);  // ← Log sur console Render
+      alert(error);
     }
   };
   return (
