@@ -18,6 +18,7 @@ export async function ConnexionUser(
 
     if (!contentType || !contentType.includes('application/json')) {
       const text = await response.text();
+      alert(text)
       console.error("Réponse non-JSON :", text); // ← utile en dev
       throw new Error("Réponse du serveur non valide (non-JSON)");
     }
