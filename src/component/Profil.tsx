@@ -12,7 +12,8 @@ export type User = {
   token?: string;
   prenom: string
   userName?: string
-  password?: string
+  password?: string,
+  name?:string
 }
 interface UserProfileProps {
   user: User
@@ -33,7 +34,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
                   className="rounded-circle img-fluid"
                   style={{ width: '150px' }}
                 />
-                <h5 className="my-3">{user.nom}</h5>
+                <h5 className="my-3">{user.name}</h5>
                 <p className="text-muted mb-1">{user.email || 'Utilisateur'}</p>
                 <p className="text-muted mb-4">{user.prenom || 'Localisation non définie'}</p>
                 <div className="d-flex justify-content-center mb-2">
@@ -86,7 +87,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
             <div className="card mb-4">
               <div className="card-body">
                 {[
-                  ['Full Name', user.nom],
+                  ['Full Name', user.name],
                   ['Email', user.email],
                   ['Phone', user.telephone],
                 
@@ -110,40 +111,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
             </div>
 
             {/* Exemple de projets / stats (à adapter ou supprimer) */}
-            <div className="row">
-              {[1, 2].map((col) => (
-                <div key={col} className="col-md-6">
-                  <div className="card mb-4 mb-md-0">
-                    <div className="card-body">
-                      <p className="mb-4">
-                        <span className="text-primary font-italic me-1">assignment</span> Project Status
-                      </p>
-                      {[
-                        { name: 'Web Design', progress: 80 },
-                        { name: 'Website Markup', progress: 72 },
-                        { name: 'One Page', progress: 89 },
-                        { name: 'Mobile Template', progress: 55 },
-                        { name: 'Backend API', progress: 66 },
-                      ].map(({ name, progress }) => (
-                        <React.Fragment key={name}>
-                          <p className="mb-1" style={{ fontSize: '.77rem' }}>{name}</p>
-                          <div className="progress rounded" style={{ height: '5px' }}>
-                            <div
-                              className="progress-bar"
-                              role="progressbar"
-                              style={{ width: `${progress}%` }}
-                              aria-valuenow={progress}
-                              aria-valuemin={0}
-                              aria-valuemax={100}
-                            ></div>
-                          </div>
-                        </React.Fragment>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+     
           </div>
         </div>
       </div>
