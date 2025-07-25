@@ -1,6 +1,7 @@
 
 import { Connexion } from '@/app/Type/typeUser';
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 
 export async function ConnexionUser(formData:Connexion ) {
@@ -8,7 +9,7 @@ export async function ConnexionUser(formData:Connexion ) {
     console.log('formData kjn', JSON.stringify(formData.email))
  if(!formData.email || !formData.password) return 
     try {
-        const response = await fetch('http://localhost:3003/api/auth',  {
+        const response = await fetch(`${API_URL}/api/auth`,  {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

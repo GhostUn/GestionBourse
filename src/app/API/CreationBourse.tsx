@@ -1,10 +1,10 @@
 import { Bourse } from "../Type/typeBourse";
-
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export async function CreationBourse(formData :Bourse) {
     if(!formData.nomBourse) return
     console.log('fromData', formData)
     try {
-        const response = await fetch('http://localhost:3003/api/Bourses',  {
+        const response = await fetch(`${API_URL}/api/Bourses`,  {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -24,7 +24,7 @@ export async function CreationBourse(formData :Bourse) {
 // app/API/domaines.ts
 export async function getAllDomaines() {
   try {
-    const res = await fetch('http://localhost:3003/api/DomaineBourse');
+    const res = await fetch(`${API_URL}/api/DomaineBourse`);
     console.log('res ici', res)
     if (!res.ok) {
       throw new Error('Erreur lors de la récupération des domaines');
@@ -45,7 +45,7 @@ export async function getAllDomaines() {
   return data.bourses
 }*/
 export async function getAllBourses() {
-  const response = await fetch('http://localhost:3003/api/Bourses',  {
+  const response = await fetch(`${API_URL}/api/Bourses`,  {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -67,7 +67,7 @@ export async function getAllBourses() {
   return data
 }*/
 export const getBourseById = async (id: string) => {
-  const res = await fetch(`http://localhost:3003/api/bourses/${id}`); // 🟠 adapte l'URL
+  const res = await fetch(`${API_URL}/api/bourses/${id}`); // 🟠 adapte l'URL
   if (!res.ok) {
     throw new Error('Erreur lors de la récupération des données');
   }
@@ -77,7 +77,7 @@ export const bourseSearch1 = async (query: string) => {
 
   try {
     
-    const res = await fetch(`http://localhost:3003/api/bourses/search?query=${query}`);
+    const res = await fetch(`${API_URL}/api/bourses/search?query=${query}`);
 
     return await res.json();
   } catch (error) {
@@ -98,6 +98,6 @@ export const bourseSearch = async (filters: {
     if (value) params.append(key, value);
   });
 
-  const res = await fetch(`http://localhost:3003/api/bourses/search?${params.toString()}`);
+  const res = await fetch(`${API_URL}/api/bourses/search?${params.toString()}`);
   return await res.json();
 };

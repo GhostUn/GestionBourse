@@ -1,10 +1,11 @@
 import { DomaineBourse } from "../Type/typeUser";
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function creationDomaine(formData :DomaineBourse) {
     if(!formData.libelle) return
     console.log('fromData', formData)
     try {
-        const response = await fetch('http://localhost:3003/api/DomaineBourse',  {
+        const response = await fetch(`${API_URL}/api/DomaineBourse`,  {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -24,7 +25,7 @@ export async function creationDomaine(formData :DomaineBourse) {
 // app/API/domaines.ts
 export async function getAllDomaines() {
   try {
-    const res = await fetch('http://localhost:3003/api/DomaineBourse');
+    const res = await fetch(`${API_URL}/api/DomaineBourse`);
     console.log('res ici', res)
     if (!res.ok) {
       throw new Error('Erreur lors de la récupération des domaines');

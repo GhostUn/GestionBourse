@@ -1,10 +1,11 @@
 import { TypeBourse } from "../Type/typeBourse";
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function creationTypeBourse(formData :TypeBourse) {
     if(!formData.libelle) return
     console.log('fromData', formData)
     try {
-        const response = await fetch('http://localhost:3003/BourseType',  {
+        const response = await fetch(`${API_URL}/BourseType`,  {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

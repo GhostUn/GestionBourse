@@ -1,6 +1,7 @@
 import { Candidature } from "../Type/candidature";
 
 export async function CreationCandidature(formData: Candidature) {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
   if (!formData.nomEt) return;
 
   try {
@@ -19,7 +20,7 @@ export async function CreationCandidature(formData: Candidature) {
     if (formData.denierDiplome) data.append("denierDiplome", formData.denierDiplome);
     if (formData.lettreRecommandation) data.append("lettreRecommandation", formData.lettreRecommandation);
     console.log('data soumis', formData.denierDiplome)
-    const response = await fetch("http://localhost:3003/api/Candidatures", {
+    const response = await fetch(`${API_URL}/api/Candidatures`, {
       method: "POST",
       body: data, // Pas besoin de headers
     });

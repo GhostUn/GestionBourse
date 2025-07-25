@@ -1,13 +1,14 @@
 
 import {User} from "../Type/typeUser"
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 
 export async function creationUser(formData :User) {
     if(!formData.userName) return
     
     try {
-        const response = await fetch('http://localhost:3003/users',  {
+        const response = await fetch(`${API_URL}/users`,  {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
