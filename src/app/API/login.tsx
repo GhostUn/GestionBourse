@@ -14,7 +14,13 @@ export async function ConnexionUser(
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     });
+    const contentType = response.headers.get('content-type');
 
+    if (!contentType || !contentType.includes('application/json')) {
+      const text = await response.text();
+      console.error("Réponse non-JSON :", text); // ← utile en dev
+      throw new Error("Réponse du serveur non valide (non-JSON)");
+    }
     const data = await response.json();
     console.log('data.user', data.user)
 
