@@ -1,14 +1,15 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
 import { User } from '@/app/Type/typeUser';
-import { ListeUser } from '@/app/API/User';
+import { ListeCandidatures } from '@/app/API/Candidature';
 
 import $ from 'jquery';
 import 'datatables.net-bs4';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
+import { Candidature } from '@/app/Type/candidature';
 
 interface ListingButton {
-  type: 'bourses' | 'admin' | 'candidatures'
+  type?: 'bourses' | 'admin' | 'candidatures'
 }
 
 interface LinkItem {
@@ -19,8 +20,8 @@ interface LinkItem {
 
 
 
-const ListeAdmin = ({ type }: ListingButton) => {
-  const [utilisateurs, setUtilisateurs] = useState<User[]>([])
+const ListeCandidaturesAd = ({ type = "admin"}: ListingButton) => {
+  const [utilisateurs, setUtilisateurs] = useState<Candidature[]>([])
 
     const tableRef = useRef<HTMLTableElement>(null);
     
@@ -51,50 +52,66 @@ const ListeAdmin = ({ type }: ListingButton) => {
 
   const links = type === 'bourses' ? bouserBouttonItems : candidaturesItems
 
-  useEffect(() => {
-    const fetchUtilisateurs = async () => {
-      try {
-        const res = await ListeUser()
-        const data = await res?.json()
-        setUtilisateurs(data)
-      } catch (error) {
-        console.error('Erreur lors du chargement des utilisateurs :', error)
-      }
-    }
+        useEffect(() => {
+        const fetchUtilisateurs = async () => {
+            try {
+            const data = await ListeCandidatures();
+            if (data) {
+                setUtilisateurs(data);
+            } else {
+                console.warn('Aucune donnée reçue');
+                setUtilisateurs([]); // facultatif si tu veux éviter que la liste reste vide
+            }
+            } catch (error) {
+            console.error('Erreur lors du chargement des utilisateurs :', error);
+            }
+        }
 
-    fetchUtilisateurs()
-  }, [])
+        fetchUtilisateurs();
+        }, []);
+
+
     const handlerConsulter = async (id?:string) => {
             if (id) {
                 console.log('id', id)
             }
     }
   return (
+    <div className='row'>
+
     <div className="table-responsive mt-4">
       <table className="table table-striped table-bordered" ref={tableRef}>
         <thead className="table-dark">
           <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
+            <th>Nom Etudiant</th>
+            <th>Nom Bouser</th>
             <th>Email</th>
-            <th>Téléphone</th>
-            <th>Rôle</th>
+            <th>telephone etudaint</th>
+            <th>Pays </th>
+            <th>Paiement </th>
+            <th>Statut Traitement </th>
+
             <th colSpan={links.length}>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {utilisateurs?.map((user) => (
-            <tr key={user.id}>
-              <td>{user.name}</td>
-              <td>{user.prenom}</td>
+          {utilisateurs?.map((user,id) => (
+            <tr key={id}>
+              <td>{user.nomEt}</td>
+              <td>{user.nombourse}</td>
               <td>{user.email}</td>
-              <td>{user.telephone}</td>
-              <td>{user.role}</td>
+              <td>{user.phoneNumber}</td>
+              <td>{user.pays}</td>
+              <td>{user.statutPaiement}</td>
+              <td>{user.statutTraitement}</td>
+              
+
+
               {links.map((link, idx) => (
                 <td key={idx}>
                   <button
                     className={`btn btn-sm ${link.className ?? 'btn-outline-primary'}`}
-                    onClick={() => handlerConsulter(user.id)}
+                    onClick={() => handlerConsulter(user.email)}
                   >
                     {link.label}
                   </button>
@@ -105,8 +122,9 @@ const ListeAdmin = ({ type }: ListingButton) => {
         </tbody>
       </table>
     </div>
+    </div>
 
   )
 }
 
-export default ListeAdmin
+export default ListeCandidaturesAd

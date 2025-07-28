@@ -34,7 +34,7 @@ const router = useRouter();
     if (formData.email && formData.password ) {
         const response = await ConnexionUser(formData, setUser)
        
-        alert("Connexion réussie !")
+        
         router.push("/dashboard");
     }
     } catch (error) { 

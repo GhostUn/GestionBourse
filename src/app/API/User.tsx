@@ -27,13 +27,13 @@ export async function creationUser(formData :User) {
 
 export async function ListeUser() {
     try {
-        const response = await fetch('http://localhost:3003/users/',  {
+        const response = await fetch(`${API_URL}/users/`,  {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
             }
             });
-console.log('formData mes datas end front liste', response)
+            //console.log('formData mes datas end front liste', response)
 
             return response
         

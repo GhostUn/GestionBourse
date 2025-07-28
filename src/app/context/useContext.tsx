@@ -10,7 +10,8 @@ interface User {
   token?: string;
   prenom: string
   userName?: string
-  password?: string
+  password?: string;
+  role?: "etudiant" | "admin"
 }
 
 interface UserContextType {

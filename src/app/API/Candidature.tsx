@@ -71,3 +71,28 @@ export async function ListeCandidaturesUser(email: string) {
     return null;
   }
 }
+
+
+export async function ListeCandidatures() {
+  try {
+    const response = await fetch(`http://localhost:3003/api/candidatures/`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    console.log('Réponse du backend (candidatures):', data);
+      // Garde cette vérification
+    if (!Array.isArray(data)) {
+      console.warn("La réponse n'est pas un tableau !");
+      return [];
+    }
+    return data;
+  } catch (error) {
+    console.error("Erreur lors de la récupération des candidatures de l'utilisateur :", error);
+    return null;
+  }
+}

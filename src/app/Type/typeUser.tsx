@@ -10,7 +10,8 @@ export interface User {
     email:string;
     nom?:string;
     pays?:string;
-    token?:string
+    token?:string;
+    role?: 'admin' | 'etudiant'
 }
 
 export interface Connexion {

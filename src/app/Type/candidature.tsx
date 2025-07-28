@@ -10,5 +10,8 @@ export interface Candidature {
     denierDiplome:File | null,
     DiplomeRequis: File | null;
     cv:File | null,
-    lettreRecommandation?:File | null
+    lettreRecommandation?:File | null,
+    statutPaiement: 'en cours',
+    statutTraitement: 'en cours de traitement',
+
 }

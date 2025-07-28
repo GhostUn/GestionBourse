@@ -1,8 +1,7 @@
 'use client'
 import FiltresBourses from '@/component/FiltresBourses'
 import ListeBourses from '@/component/ListeBourses'
-import Navbar from '@/component/navbar'
-import Sidebar from '@/component/Siderbar'
+
 import { useState } from 'react'
 import { Bourse } from '../Type/typeBourse'
 

@@ -1,6 +1,8 @@
 import React from 'react'
 
 import ListeAdmin from '@/component/ListeAdmin'
+import ListeCandidature from '@/component/ListeCandidature'
+import ListeCandidaturesAd from '@/component/ListeCandidaturesAd'
 
 const page = () => {
 
@@ -19,7 +21,7 @@ const page = () => {
                       </div>
                       <div className="row">
                         <div className="col-md-12">
-                          <ListeAdmin type="candidatures"/>
+                          <ListeCandidaturesAd  />
                         </div>
                       </div>
                     </div>
