@@ -46,8 +46,8 @@ const ListeCandidaturesAd = ({ type = "admin"}: ListingButton) => {
   ]
 
   const candidaturesItems: LinkItem[] = [
-    { label: 'Consulter', className: 'btn btn-info' },
-    { label: 'Supprimer', className: 'btn btn-danger' },
+    { label: 'Valider', className: 'btn btn-info' },
+    { label: 'Regeter', className: 'btn btn-danger' },
   ]
 
   const links = type === 'bourses' ? bouserBouttonItems : candidaturesItems
@@ -104,9 +104,6 @@ const ListeCandidaturesAd = ({ type = "admin"}: ListingButton) => {
               <td>{user.pays}</td>
               <td>{user.statutPaiement}</td>
               <td>{user.statutTraitement}</td>
-              
-
-
               {links.map((link, idx) => (
                 <td key={idx}>
                   <button

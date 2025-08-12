@@ -40,7 +40,7 @@ export default function Navbar() {
 
   const authLinks: NavLink[] = [
     { href: '/', label: 'Landing Page' },
-    { href: '/apropos', label: 'À propos' },
+    { href: '/about', label: 'À propos' },
     { href: '#', label: 'Déconnexion', onClick: handleLogout },
   ]
 

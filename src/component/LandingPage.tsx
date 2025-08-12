@@ -40,7 +40,8 @@ export const LandingPage = () => {
     </header>
 
 
-
+    {/** quelle que bourse  */}
+    
       {/* Universités partenaires */}
       <section className="py-5">
         <div className="container">
@@ -86,7 +87,7 @@ export const LandingPage = () => {
               'Taux de réussite de 98%',
               'Support en visa et logement'
             ].map((text, i) => (
-              <div className="col-md-3 text-center" key={i}>
+              <div className="col-md-3 text-center text-black" key={i}>
                 <div className="p-4 border rounded shadow-sm h-100">
                   <h4>✔</h4>
                   <p>{text}</p>

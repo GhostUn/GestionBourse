@@ -1,3 +1,5 @@
+'use client'
+
 import Navbar from '@/component/navbar'
 import Sidebar from '@/component/Siderbar'
 import { useUser } from '../context/useContext'
