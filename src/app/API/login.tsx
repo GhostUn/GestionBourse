@@ -44,7 +44,8 @@ export async function ConnexionUser(
       nom:data.user.name,
       id_user:data.user.id,
       prenom: data.user.prenom,
-      userName: data.user.userName
+      userName: data.user.userName,
+      role:data.user.role
     });
 
     return {

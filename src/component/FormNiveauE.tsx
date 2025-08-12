@@ -33,9 +33,9 @@ export default function FormulaireNiveauEtude() {
                 
                 alert(formData.libelle)
                 if (formData.libelle && formData.codeNiveau ) {
-                    console.log('data1', formData)
+                   // console.log('data1', formData)
                     const niveauEtudes = await CreateNiveau(formData)
-                    console.log('Domaines', niveauEtudes)
+                  //  console.log('niveau etude', niveauEtudes)
                     supform();
                     if (!niveauEtudes?.ok) {
                     const errorData = await niveauEtudes?.json();

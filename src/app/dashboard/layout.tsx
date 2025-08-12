@@ -5,6 +5,7 @@ import Sidebar from '@/component/Siderbar'
 import { useUser } from '../context/useContext'
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { user } = useUser()
+    console.log('role', user?.role)
   return (
      <div className="container-fluid">
               <div className="row">
@@ -15,7 +16,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <Sidebar role={user?.role ?? "etudiant"} />
             </div>
             <div className="col-12 col-md-9 p-4">
-              {children}
+              {children} 
             </div>
           </div>
         </div>

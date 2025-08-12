@@ -8,11 +8,7 @@ const page = () => {
 
     
   return (
-
-
         <>
-          
-
                     <div className="container-fluid">
                       <div className="row">
                         <div className="col-md-12">
@@ -25,7 +21,6 @@ const page = () => {
                         </div>
                       </div>
                     </div>
-         
         </>
   )
 }

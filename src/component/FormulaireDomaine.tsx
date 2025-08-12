@@ -33,9 +33,9 @@ export default function FormulaireDomaine() {
                 
                 alert(formData.libelle)
                 if (formData.libelle && formData.codeDomaine ) {
-                    console.log('data1', formData)
+                    //console.log('data1', formData)
                     const Domaines = await creationDomaine(formData)
-                    console.log('Domaines', Domaines)
+                    //console.log('Domaines', Domaines)
                     supform();
                     if (!Domaines?.ok) {
                     const errorData = await Domaines?.json();

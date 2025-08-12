@@ -1,11 +1,6 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
-import { User } from '@/app/Type/typeUser';
 import { ListeCandidatures } from '@/app/API/Candidature';
-
-import $ from 'jquery';
-import 'datatables.net-bs4';
-import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import { Candidature } from '@/app/Type/candidature';
 
 interface ListingButton {
@@ -18,26 +13,27 @@ interface LinkItem {
   className?: string
 }
 
-
-
 const ListeCandidaturesAd = ({ type = "admin"}: ListingButton) => {
   const [utilisateurs, setUtilisateurs] = useState<Candidature[]>([])
+  const tableRef = useRef<HTMLTableElement>(null);
 
-    const tableRef = useRef<HTMLTableElement>(null);
-    
-    useEffect(() => {
-    if (utilisateurs && utilisateurs.length > 0 && tableRef.current) {
-      const $table = $(tableRef.current);
+  useEffect(() => {
+    // Importer jQuery et DataTables uniquement côté client
+    (async () => {
+      const $ = (await import('jquery')).default;
+      await import('datatables.net-bs4');
+      
 
-      // Détruire si déjà initialisé (évite les erreurs lors des rechargements)
-      if ($.fn.dataTable.isDataTable(tableRef.current)) {
-        $table.DataTable().destroy();
+      if (utilisateurs.length > 0 && tableRef.current) {
+        const $table = $(tableRef.current);
+
+        if ($.fn.dataTable.isDataTable(tableRef.current)) {
+          $table.DataTable().destroy();
+        }
+        $table.DataTable();
       }
-
-      $table.DataTable(); // Initialisation de DataTables
-    }
-  }, [utilisateurs]); // Re-initialise à chaque mise à jour des données
-
+    })();
+  }, [utilisateurs]);
 
   const bouserBouttonItems: LinkItem[] = [
     { label: 'Ajout', className: 'btn btn-primary' },
@@ -52,76 +48,67 @@ const ListeCandidaturesAd = ({ type = "admin"}: ListingButton) => {
 
   const links = type === 'bourses' ? bouserBouttonItems : candidaturesItems
 
-        useEffect(() => {
-        const fetchUtilisateurs = async () => {
-            try {
-            const data = await ListeCandidatures();
-            if (data) {
-                setUtilisateurs(data);
-            } else {
-                console.warn('Aucune donnée reçue');
-                setUtilisateurs([]); // facultatif si tu veux éviter que la liste reste vide
-            }
-            } catch (error) {
-            console.error('Erreur lors du chargement des utilisateurs :', error);
-            }
-        }
-
-        fetchUtilisateurs();
-        }, []);
-
-
-    const handlerConsulter = async (id?:string) => {
-            if (id) {
-                console.log('id', id)
-            }
+  useEffect(() => {
+    const fetchUtilisateurs = async () => {
+      try {
+        const data = await ListeCandidatures();
+        setUtilisateurs(data || []);
+      } catch (error) {
+        console.error('Erreur lors du chargement des utilisateurs :', error);
+      }
     }
+    fetchUtilisateurs();
+  }, []);
+
+  const handlerConsulter = async (id?:string) => {
+    if (id) {
+      console.log('id', id)
+    }
+  }
+
   return (
     <div className='row'>
-
-    <div className="table-responsive mt-4">
-      <table className="table table-striped table-bordered" ref={tableRef}>
-        <thead className="table-dark">
-          <tr>
-            <th>Nom Etudiant</th>
-            <th>Nom Bouser</th>
-            <th>Email</th>
-            <th>telephone etudaint</th>
-            <th>Pays </th>
-            <th>Paiement </th>
-            <th>Statut Traitement </th>
-
-            <th colSpan={links.length}>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {utilisateurs?.map((user,id) => (
-            <tr key={id}>
-              <td>{user.nomEt}</td>
-              <td>{user.nombourse}</td>
-              <td>{user.email}</td>
-              <td>{user.phoneNumber}</td>
-              <td>{user.pays}</td>
-              <td>{user.statutPaiement}</td>
-              <td>{user.statutTraitement}</td>
-              {links.map((link, idx) => (
-                <td key={idx}>
-                  <button
-                    className={`btn btn-sm ${link.className ?? 'btn-outline-primary'}`}
-                    onClick={() => handlerConsulter(user.email)}
-                  >
-                    {link.label}
-                  </button>
-                </td>
-              ))}
+      <div className="table-responsive mt-4">
+        <table className="table table-striped table-bordered" ref={tableRef}>
+          <thead className="table-dark">
+            <tr>
+              <th>Nom Etudiant</th>
+              <th>Nom Bouser</th>
+              <th>Email</th>
+              <th>telephone etudaint</th>
+              <th>Pays </th>
+              <th>Paiement </th>
+              <th>Statut Traitement </th>
+              <th colSpan={links.length}>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {utilisateurs?.map((user, id) => (
+              <tr key={id}>
+                <td>{user.nomEt}</td>
+                <td>{user.nombourse}</td>
+                <td>{user.email}</td>
+                <td>{user.phoneNumber}</td>
+                <td>{user.pays}</td>
+                <td>{user.statutPaiement}</td>
+                <td>{user.statutTraitement}</td>
+                {links.map((link, idx) => (
+                  <td key={idx}>
+                    <button
+                      className={`btn btn-sm ${link.className ?? 'btn-outline-primary'}`}
+                      onClick={() => handlerConsulter(user.email)}
+                    >
+                      {link.label}
+                    </button>
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
-    </div>
-
   )
 }
 
-export default ListeCandidaturesAd
+export default ListeCandidaturesAd;

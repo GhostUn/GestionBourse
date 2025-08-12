@@ -34,7 +34,7 @@ export default function Sidebar({ role }: SidebarProps) {
   ]
 
   const links = role === 'etudiant' ? etudiantLinks : adminLinks
-
+  console.log('role', role)
   return (
     <div className="bg-light p-3 h-100 border-end">
       <h5 className="mb-4">🎓 Menu</h5>
